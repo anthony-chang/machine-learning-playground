@@ -15,32 +15,60 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
 
-
 # Load dataset
 url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/iris.csv"
 names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
 dataset = read_csv(url, names=names)
 
-# shape
-# print(dataset.shape)
 
-# head
-# print(dataset.head(20)) # first 20 lines of dataset
+# # box and whisker plots
+# dataset.plot(kind = 'box', subplots = True, layout = (2, 2), sharex = False, sharey = False)
+# pyplot.show()
 
-# print descriptions
-# print(dataset.describe())
+# # histogram plots   
+# dataset.hist()
+# pyplot.show()
 
-# class distribution
-# print(dataset.groupby('class').size())
+# # scatter plot matrix
+# scatter_matrix(dataset)
+# pyplot.show()
 
-# box and whisker plots
-dataset.plot(kind = 'box', subplots = True, layout = (2, 2), sharex = False, sharey = False)
-pyplot.show()
+# split validation dataset
+array = dataset.values
+x = array[:, 0:4]
+y = array[:, 4]
+x_train, x_validation, y_train, y_validation = train_test_split(x, y, test_size=0.20, random_state=1)
 
-# histogram plots   
-dataset.hist()
-pyplot.show()
+# # test different algorithms
+# models = []
+# models.append(('LR', LogisticRegression(solver='liblinear', multi_class='ovr'))) # logistic regression
+# models.append(('LDA', LinearDiscriminantAnalysis()))                             # linear discriminant analysis
+# models.append(('KNN', KNeighborsClassifier()))                                   # k-nearest neighbours
+# models.append(('CART', DecisionTreeClassifier()))                                # classification and regression trees
+# models.append(('NB', GaussianNB()))                                              # gaussian naive bayes
+# models.append(('SVM', SVC(gamma='auto')))                                        # support vector machines
 
-# scatter plot matrix
-scatter_matrix(dataset)
-pyplot.show()
+# # eval different algorithms
+# results = []
+# names = []
+# for name, model in models:
+#     kfold = StratifiedKFold(n_splits=10, random_state=1, shuffle=True)
+#     cv_results = cross_val_score(model, x_train, y_train, cv=kfold, scoring='accuracy')
+#     results.append(cv_results)
+#     names.append(name)
+#     print('%s: %f (%f)' %(name, cv_results.mean(), cv_results.std()))
+ 
+
+# # plot algorithm accuracy
+# pyplot.boxplot(results, labels=names)
+# pyplot.show()
+
+# make predictions on validation dataset
+model = SVC(gamma='auto') # support vector machines
+model.fit(x_train, y_train)
+predictions = model.predict(x_validation)
+
+# evaluate predictions
+print(accuracy_score(y_validation, predictions))
+print(confusion_matrix(y_validation, predictions))
+print(classification_report(y_validation, predictions))
