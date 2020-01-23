@@ -50,4 +50,4 @@ my_classifier.fit(X_train, y_train)
 predictions = my_classifier.predict(X_test)
 # show accuracy of decision tree
 from sklearn.metrics import accuracy_score
-print (accuracy_score(y_test, predictions))
+print("%f" %(accuracy_score(y_test, predictions)*100))
