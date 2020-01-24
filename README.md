@@ -1,2 +1,2 @@
 # Machine Learning Playground
- Messing around with machine learning
+Experimenting with machine learning with Scikit-learn regressors and classifiers, Pandas, and matplotlib. 
