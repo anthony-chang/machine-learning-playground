@@ -35,7 +35,7 @@ y = iris.target
 
 from sklearn.model_selection import train_test_split 
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=.7)  # half of data used as training, half as testing
+    X, y, test_size=.5)  # half of data used as training, half as testing
 
 # # decision tree model
 # from sklearn import tree
@@ -48,6 +48,6 @@ my_classifier = DIY_KNN()
 
 my_classifier.fit(X_train, y_train)
 predictions = my_classifier.predict(X_test)
-# show accuracy of decision tree
+# show accuracy
 from sklearn.metrics import accuracy_score
 print("%f" %(accuracy_score(y_test, predictions)*100))
