@@ -39,6 +39,8 @@ x = array[:, 0:4]
 y = array[:, 4]
 x_train, x_validation, y_train, y_validation = train_test_split(x, y, test_size=0.20, random_state=1)
 
+print(x.shape)
+print(y.shape)
 # # test different algorithms
 # models = []
 # models.append(('LR', LogisticRegression(solver='liblinear', multi_class='ovr'))) # logistic regression
