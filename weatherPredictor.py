@@ -1,7 +1,8 @@
 from datetime import date, datetime
-from pandas import read_csv
+import pandas as pd
 from pandas.plotting import scatter_matrix
 from matplotlib import pyplot
+import matplotlib.dates as mdates
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import accuracy_score
@@ -11,17 +12,24 @@ import numpy as np
 # yearmonthday, mm, mm, C, C, 10s of deg, km/h, C
 # https://climate.weather.gc.ca/climate_data/daily_data_e.html?StationID=51459
 names = ['date','temperature-avg', 'temperature-max', 'temperature-min','wind-direction','wind-speed', 'precipitation', 'snowfall','predicted-temp']
-dataset = read_csv('toronto_weather_2016-2020.csv', names=names, skiprows=1)
+dataset = pd.read_csv('toronto_weather_2016-2020.csv', names=names, skiprows=1)
 # impute our data, missing values -> mean
 dataset = dataset.replace(-99999, np.NaN)
 dataset.fillna(dataset.mean(), inplace=True)
-# print(dataset.describe())
+
 
 # store our features and labels
 data_array = dataset.values
 x = data_array[:, 0:(len(names)-1)]
 y = data_array[:, len(names)-1]
 x = x.reshape(-1, len(names)-1)
+
+date_fmt = '%Y%m%d.0'
+test = x[:, 0]
+dt_x = [datetime.strptime(str(i), date_fmt) for i in test]
+test = [mdates.date2num(i) for i in dt_x]
+pyplot.plot_date(test, y)
+pyplot.show()
 
 # 50% used as training
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.5)
