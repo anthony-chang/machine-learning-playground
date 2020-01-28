@@ -1,4 +1,4 @@
-# Enter your code here. Read input from STDIN. Print output to STDOUT
+# https: // www.hackerrank.com/challenges/predicting-office-space-price/problem
 from sklearn import linear_model
 from sklearn.preprocessing import PolynomialFeatures
 import numpy as np
