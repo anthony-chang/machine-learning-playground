@@ -1,6 +1,5 @@
 # https://www.hackerrank.com/challenges/predicting-house-prices/problem
 from sklearn import linear_model
-import matplotlib.pyplot as plt
 import numpy as np
 
 features, N = (int(n) for n in input().split())
